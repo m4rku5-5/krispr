@@ -30,7 +30,8 @@ Just do:
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-conda create -n krispr python=3.6 numpy pandas scipy kPal biopython jellyfish r
+conda create -n krispr python=3.6 numpy pandas scipy kPal biopython r
+conda install -n krispr -c bioconda jellyfish
 ```
 When you want to use the tool, you have to activate the environment by typing `source activate krispr`. When finished deactivate the environment by `source deactivate` to get back to your normal shell.
 
