@@ -76,6 +76,8 @@ X on PAMX ends not with G: no
 estimated efficiency: 0.7387
 ```
 
+Please note that the input MUST be in the form: target + PAM + 1bp
+
 ### Multiple targets
 	
 Example call for the analysis of a FASTA file and the search for all potential targets, coverage is 10, mismatches are 0:
@@ -105,3 +107,23 @@ AY750996.1      TGCTCGCTCGCTGTTTCCTTCGGA        0       0.5833  0.6667  0.5     
 ...
 ...
 ```
+
+### Further explanations
+
+In addition you can specify a parameter `-l` which indicates the CRISPR target length excluding PAM (defaults to 20). The minimum probe length in multi mode then has to be the `target length + PAM + 1` which in this example means 24. In single mode it has to be exactly `target length + PAM + 1`.
+If one of the sequences in the FASTA in multi mode is to short krispr produces `--` in the output columns for this seqid. If the length fits, but there are no targets found it produces `-` in the specific output line.
+
+Explanation of the columns:
+1. seqid - name of the sequence from the FASTA
+2. target - sequence of the found target(s) in the form: target + PAM + 1
+3. score - off-taget score - normalized sum of the *k*-mer fequences for the target; the smaller this is, the better the target is, because there are less possible off-targets; good values are usually below 10 for 0 or 1 mismatch and below 50-150 for 2 or 3 mismatches
+4. GC_all - overall GC content, should be between 0.5 to 0.8
+5. GC_dist - distal (first 13 nucleotides) GC content
+6. GC_prox - proximal (second half of the taget) GC content, distal and proximal GC content should not deviate significantly
+7. ent - Shannon entopie of the target, should be around 0.6 +- 0.1
+8. complexity - triplet diversity/complexity, how many different triplets are present in the target sequence regards to its length, should be between 1.2 to 1.3 +- 0.1
+9. start_AG - does the target start with A or G
+10. PAMX_G - is the nucleotide after the PAM not a G
+11. e_eff - estimated efficiency of the target, calculated with a regression model taken all GC contents, entropie and complexity in to account, it ranges from 0 to 1 were 0 is the worst and 1 is the best. This value translates roughly to mutation frequencies.
+
+To evaluate a sequence the most important values are the off-target score and the estimated efficiency.
