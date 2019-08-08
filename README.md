@@ -79,7 +79,7 @@ estimated efficiency: 0.7387
 Please note that the input MUST be in the form: target + PAM + 1bp
 
 ### Multiple targets
-	
+
 Example call for the analysis of a FASTA file and the search for all potential targets, coverage is 10, mismatches are 0:
 
 ```
@@ -108,9 +108,35 @@ AY750996.1      TGCTCGCTCGCTGTTTCCTTCGGA        0       0.5833  0.6667  0.5     
 ...
 ```
 
+### Making a new model on your own data
+
+The model shipped with the tool includes 32 targets from barley, wheat, tomato and tobacco.
+With the following call it is possible to make a new model on your own data provided in the `targets.csv` file:
+
+```
+python3.5 krispr.py new-model -j KINDEX.jf -e targets.csv -c 10
+```
+
+The table file should be a `.csv` file and have a format like this:
+
+```
+target,efficiency
+TTCTCCCCCCCAATCCGCCCTGGG,0.37
+CGATTTCCTCCGCGCCGTTCCGGT,0.2
+TCCTCCGCGCCGTTCCGGTCCGGC,0.0
+CGCGCCGTTCCGGTCCGGCGAGGC,0.78
+TCCGGTCCGGCGAGGCGACCCGGC,0.3
+...
+...
+```
+
+The tool reates a backup of the old file and then analyses all targets for their properties and writes a new data file.
+Please consider that there should be at least 15-20 targets present to get sufficient predictions.
+
+
 ### Further explanations
 
-In addition you can specify a parameter `-l` which indicates the CRISPR target length excluding PAM (defaults to 20). The minimum probe length in multi mode then has to be the `target length + PAM + 1` which in this example means 24. In single mode it has to be exactly `target length + PAM + 1`.
+In addition one can specify a parameter `-l` which indicates the CRISPR target length excluding PAM (defaults to 20). The minimum probe length in multi mode then has to be the `target length + PAM + 1` which in this example means 24. In single mode it has to be exactly `target length + PAM + 1`.
 If one of the sequences in the FASTA in multi mode is to short krispr produces `--` in the output columns for this seqid. If the length fits, but there are no targets found it produces `-` in the specific output line.
 
 Explanation of the columns:
@@ -127,3 +153,7 @@ Explanation of the columns:
 11. e_eff - estimated efficiency of the target, calculated with a regression model taken all GC contents, entropie and complexity in to account, it ranges from 0 to 1 were 0 is the worst and 1 is the best. This value translates roughly to mutation frequencies.
 
 To evaluate a sequence the most important values are the off-target score and the estimated efficiency.
+
+### Info
+KRISPR is part of the Kmasker tool (see [here](https://github.com/tschmutzer/kmasker)), so consider using this as well.
+To cite this: ...
