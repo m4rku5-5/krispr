@@ -114,18 +114,18 @@ The model shipped with the tool includes 32 targets from barley, wheat, tomato a
 With the following call it is possible to make a new model on your own data provided in the `targets.csv` file:
 
 ```
-python3.5 krispr.py new-model -j KINDEX.jf -e targets.csv -c 10
+python3.5 krispr.py new-model -e targets.csv -c 10
 ```
-
-The table file should be a `.csv` file and have a format like this:
+The table should contain the target sequence in format `target + PAM + 1bp` as well as the experimentally validated mutagenesis efficiency. It is possible to mix different *k*-mer indices and their corresponding coverages for e.g. different species. Therefore just provide the path to the jellyfish index file.
+The table file should be a valid `.csv` file and have a format like this:
 
 ```
-target,efficiency
-TTCTCCCCCCCAATCCGCCCTGGG,0.37
-CGATTTCCTCCGCGCCGTTCCGGT,0.2
-TCCTCCGCGCCGTTCCGGTCCGGC,0.0
-CGCGCCGTTCCGGTCCGGCGAGGC,0.78
-TCCGGTCCGGCGAGGCGACCCGGC,0.3
+target,efficiency,kindex,coverage
+TTCTCCCCCCCAATCCGCCCTGGG,0.37,index.jf,10
+CGATTTCCTCCGCGCCGTTCCGGT,0.2,index.jf,10
+TCCTCCGCGCCGTTCCGGTCCGGC,0.0,index.jf,10
+CGCGCCGTTCCGGTCCGGCGAGGC,0.78,index2.jf,5
+TCCGGTCCGGCGAGGCGACCCGGC,0.3,index3.jf,5
 ...
 ...
 ```
@@ -134,10 +134,10 @@ The tool reates a backup of the old file and then analyses all targets for their
 Please consider that there should be at least 15-20 targets present to get sufficient predictions.
 
 
-### Further explanations
+## Further explanations
 
 In addition one can specify a parameter `-l` which indicates the CRISPR target length excluding PAM (defaults to 20). The minimum probe length in multi mode then has to be the `target length + PAM + 1` which in this example means 24. In single mode it has to be exactly `target length + PAM + 1`.
-If one of the sequences in the FASTA in multi mode is to short krispr produces `--` in the output columns for this seqid. If the length fits, but there are no targets found it produces `-` in the specific output line.
+If one of the sequences in the FASTA in multi mode is too short krispr produces `--` in the output columns for this seqid. If the length fits, but there are no targets found it produces `-` in the specific output line.
 
 Explanation of the columns:
 1. seqid - name of the sequence from the FASTA
@@ -154,6 +154,6 @@ Explanation of the columns:
 
 To evaluate a sequence the most important values are the off-target score and the estimated efficiency.
 
-### Info
-KRISPR is part of the Kmasker tool (see [here](https://github.com/tschmutzer/kmasker)), so consider using this as well.
-To cite this: ...
+## Info
+KRISPR is part of the Kmasker tool (see [here](https://github.com/tschmutzer/kmasker)), so consider using this one as well (it's worth it).
+How to cite KRISPR: ...

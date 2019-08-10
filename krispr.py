@@ -175,7 +175,7 @@ def calculate_values(probe, kindex, mutations, coverage, threads):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 	parser.add_argument("mode", help="single: only 1 target is analyzed; multi: all targets in a fasta file are being searched and analyzed; new-model: this creates a new model for efficiency prediction", choices=['single', 'multi', 'new-model'])
-	parser.add_argument("-j", "--jelly_db", help="the jellyfish database file (.jf)", required = True)
+	parser.add_argument("-j", "--jelly_db", help="the jellyfish database file (.jf)")
 	parser.add_argument("-q", "--query", help="target sequence to analyze; when mode is single: must be the target string; when mode is multi: must be a fasta file")
 	parser.add_argument("-m", "--mismatches", help="number of mismatches to search", default = 0, type = int, choices=[0,1,2,3])
 	parser.add_argument("-c", "--coverage", help="coverage of the jelly db", default = 1, type = int)
@@ -253,10 +253,10 @@ if __name__ == "__main__":
 		analyzed_probes = pd.DataFrame(columns=["seq", "score", "score.1", "score.2", "score.3", "GC_all", "GC_dist", "GC_prox", "ent", "complexity", "corr_start", "corr_x", "eff"])
 
 		for row in probes.itertuples(index = False):
-			score = calculate_values(row[0], args.jelly_db, 0, args.coverage, args.threads)
-			score1 = calculate_values(row[0], args.jelly_db, 1, args.coverage, args.threads)
-			score2 = calculate_values(row[0], args.jelly_db, 2, args.coverage, args.threads)
-			score3 = calculate_values(row[0], args.jelly_db, 3, args.coverage, args.threads)
+			score = calculate_values(row[0], row[2], 0, row[3], args.threads)
+			score1 = calculate_values(row[0], row[2], 1, row[3], args.threads)
+			score2 = calculate_values(row[0], row[2], 2, row[3], args.threads)
+			score3 = calculate_values(row[0], row[2], 3, row[3], args.threads)
 			analyzed_probes = analyzed_probes.append({'seq': row[0], 'score': score[1], 'score.1': score1[1], 'score.2': score2[1], 'score.3': score3[1], 'GC_all': score[2], 'GC_dist': score[3], 'GC_prox': score[4], \
 			'ent': score[5], 'complexity': score[6], 'corr_start': score[7], 'corr_x': score[8], 'eff': row[1]}, ignore_index=True)
 		print(analyzed_probes)
