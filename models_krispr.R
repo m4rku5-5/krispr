@@ -10,11 +10,11 @@ incoming <- data.frame(score=as.numeric(args[1]), score.1=as.numeric(args[2]), s
 
 ## Make models
 
-model_GC_all <- loess(eff ~ GC_all, data = data_c1, span=0.7)
+model_GC_all <- loess(eff ~ GC_all, data = data_c1, span=0.7, weights = weight)
 
-model_comp_ent <- loess(eff ~ complexity + ent, data = data_c1, span=0.9)
+model_comp_ent <- loess(eff ~ complexity + ent, data = data_c1, span=0.9, weights = weight)
 
-model_GC_prox_dist <- loess(eff ~ GC_dist + GC_prox, data = data_c1, span=0.9)
+model_GC_prox_dist <- loess(eff ~ GC_dist + GC_prox, data = data_c1, span=0.9, weights = weight)
 
 combined_data <- data.frame(model_GC_prox_dist=predict(model_GC_prox_dist), model_comp_ent=predict(model_comp_ent), model_GC_all=predict(model_GC_all), eff=data_c1$eff)
 
@@ -32,6 +32,6 @@ pred_eff <- predict(model_combined, data.frame(model_GC_prox_dist=predict(model_
 pred_eff <- ifelse(pred_eff < 0 , 0, pred_eff)
 pred_eff <- ifelse(pred_eff > 1, 1, pred_eff)
 
-											   
+
 # output
 print(unname(pred_eff))
