@@ -116,7 +116,7 @@ With the following call it is possible to make a new model on your own data prov
 ```
 python3.5 krispr.py new-model -e targets.csv -c 10
 ```
-The table should contain the target sequence in format `target + PAM + 1bp` as well as the experimentally validated mutagenesis efficiency. It is possible to mix different *k*-mer indices and their corresponding coverages for e.g. different species. Therefore just provide the path to the jellyfish index file. Also provide the number of plants wich have been used to determine the efficiency. This is used in the model to weight each sample.
+The table should contain the target sequence in format `target + PAM + 1bp` as well as the experimentally validated mutagenesis efficiency. It is possible to mix different *k*-mer indices and their corresponding coverages for e.g. different species. Therefore just provide the path to the jellyfish index file. Also provide the number of plants wich have been used to determine the efficiency. Note that all samples with `n < 10` will be skipped.
 The table file should be a valid `.csv` file and have a format like this:
 
 ```

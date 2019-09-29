@@ -250,7 +250,7 @@ if __name__ == "__main__":
 		print("You are creating a new model now. A backup of the old model was made.", file=sys.stderr)
 
 		probes = pd.read_csv(args.targets_efficiencies)
-		analyzed_probes = pd.DataFrame(columns=["seq", "score", "score.1", "score.2", "score.3", "GC_all", "GC_dist", "GC_prox", "ent", "complexity", "corr_start", "corr_x", "eff", "weight"])
+		analyzed_probes = pd.DataFrame(columns=["seq", "score", "score.1", "score.2", "score.3", "GC_all", "GC_dist", "GC_prox", "ent", "complexity", "corr_start", "corr_x", "eff"])
 
 		for row in probes.itertuples(index = False):
 			score = calculate_values(row[0], row[2], 0, row[3], args.threads)
@@ -258,14 +258,10 @@ if __name__ == "__main__":
 			score2 = calculate_values(row[0], row[2], 2, row[3], args.threads)
 			score3 = calculate_values(row[0], row[2], 3, row[3], args.threads)
 			if row[4] <= 10:
-				weight = 0.1
-			elif row[4] > 10 and row[4] < 20:
-				weight = 0.5
-			else:
-				weight = 1
+				continue
 
 			analyzed_probes = analyzed_probes.append({'seq': row[0], 'score': score[1], 'score.1': score1[1], 'score.2': score2[1], 'score.3': score3[1], 'GC_all': score[2], 'GC_dist': score[3], 'GC_prox': score[4], \
-			'ent': score[5], 'complexity': score[6], 'corr_start': score[7], 'corr_x': score[8], 'eff': row[1], 'weight': weight}, ignore_index=True)
+			'ent': score[5], 'complexity': score[6], 'corr_start': score[7], 'corr_x': score[8], 'eff': row[1]}, ignore_index=True)
 
 		print(analyzed_probes)
 		analyzed_probes.to_csv("analyzed_probes.csv")
