@@ -110,7 +110,7 @@ AY750996.1      TGCTCGCTCGCTGTTTCCTTCGGA        0       0.5833  0.6667  0.5     
 
 ### Making a new model on your own data
 
-The model shipped with the tool includes 32 targets from barley, wheat, tomato and tobacco.
+The model shipped with the tool includes 44 targets from barley, wheat, tomato and tobacco.
 With the following call it is possible to make a new model on your own data provided in the `targets.csv` file:
 
 ```
