@@ -114,7 +114,7 @@ The model shipped with the tool includes 44 targets from barley, wheat, tomato a
 With the following call it is possible to make a new model on your own data provided in the `targets.csv` file:
 
 ```
-python3.5 krispr.py new-model -e targets.csv -c 10
+python3.5 krispr.py new-model -e targets.csv
 ```
 The table should contain the target sequence in format `target + PAM + 1bp` as well as the experimentally validated mutagenesis efficiency. It is possible to mix different *k*-mer indices and their corresponding coverages for e.g. different species. Therefore just provide the path to the jellyfish index file. Also provide the number of plants wich have been used to determine the efficiency. Note that all samples with `n < 10` will be skipped.
 The table file should be a valid `.csv` file and have a format like this:
